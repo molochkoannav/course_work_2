@@ -85,3 +85,4 @@ class IGeocoder(BaseIGeocoder):
         except Exception as e:
             logger_geocode.error(f"Непредвиденная ошибка: {e}", exc_info=True)
             return None
+
