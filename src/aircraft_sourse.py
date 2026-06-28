@@ -1,4 +1,4 @@
-from src.base_iaircraft_sourse import BaseIAircraftSource
+from src.base_iaircraft_sourse import BaseIAircraftSourse
 from requests import get, RequestException
 import json
 from pathlib import Path
@@ -27,18 +27,18 @@ file_handler_aircraft.setFormatter(formatter)
 logger_aircraft.addHandler(file_handler_aircraft)
 logger_aircraft.propagate = False
 
-class IAircraftSource(BaseIAircraftSource):
+class AircraftSourse(BaseIAircraftSourse):
     """Класс для отработки получения данных о самолетах"""
 
     def __init__(self, bounding_box=None):
         self.opensky_url = 'https://opensky-network.org/api/states/all?'
         self.bounding_box = bounding_box
         self.aeroplanes = None
-        logger_aircraft.info(f"Создан объект IAircraftSource с bounding_box: {bounding_box}")
+        logger_aircraft.info(f"Создан объект AircraftSource с bounding_box: {bounding_box}")
 
-    def get_states(self, bounding_box=None):
+    def get_aeroplanes(self, bounding_box=None):
         """Получение списка самолетов"""
-        bbox = self.bounding_box
+        bbox = bounding_box if bounding_box is not None else self.bounding_box
         if not bbox:
             logger_aircraft.error("Не указаны координаты для поиска самолетов")
             return None

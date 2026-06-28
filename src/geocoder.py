@@ -27,12 +27,12 @@ file_handler_geocode.setFormatter(formatter)
 logger_geocode.addHandler(file_handler_geocode)
 logger_geocode.propagate = False
 
-class IGeocoder(BaseIGeocoder):
+class Geocoder(BaseIGeocoder):
     """Класс для отработки геокодирования по стране """
     name_country: str
 
     def __init__(self, name_country):
-        logger_geocode.info(f"Создан объект класса IGeocoder с именем {name_country}")
+        logger_geocode.info(f"Создан объект класса Geocoder с именем {name_country}")
         self.name_country = name_country
         self.openstreetmap_url = 'https://nominatim.openstreetmap.org/search'
 

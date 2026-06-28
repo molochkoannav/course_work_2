@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-class BaseIAircraftSource(ABC):
+class BaseIAircraftSourse(ABC):
     """Базовый класс для определения положения самолетов"""
     @abstractmethod
-    def get_states(self, bbox: tuple) -> list:
+    def get_aeroplanes(self, bbox: tuple) -> list:
         pass
