@@ -42,8 +42,8 @@ class Aircraft():
         self.id_board = id_board
         self.callsign = callsign
         self.country = country
-        self.velocity = velocity
-        self.height = height
+        self.velocity = velocity if velocity is not None else 0.0
+        self.height = height if height is not None else 0
 
     @staticmethod
     def id_board_valid(id_board: str) -> None:
