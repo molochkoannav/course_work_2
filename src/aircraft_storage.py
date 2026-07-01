@@ -1,113 +1,129 @@
-import json
-
 from src.base_aircraft_storage import BaseAircraftStorage
+from src.file_manager_json import FileManager
+from src.serializer import JSONSerializer
+from src.validator import AircraftValidator
+import logging
+from pathlib import Path
+from typing import Dict, Any, List
+
+current_file = Path(__file__)
+project_root = current_file.parent.parent
+log_dir = project_root / "logs"
+log_dir.mkdir(exist_ok=True)
+
+log_storage = log_dir / "storage.log"
+
+logging.getLogger("urllib3").setLevel(logging.WARNING)
+log_air_storage = logging.getLogger("storage")
+log_air_storage.setLevel(logging.DEBUG)
+
+file_handler_storage = logging.FileHandler(log_storage, mode="w", encoding="utf-8")
+file_handler_storage.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter("%(asctime)s - %(filename)s - %(levelname)s: %(message)s")
+file_handler_storage.setFormatter(formatter)
+
+log_air_storage.addHandler(file_handler_storage)
+log_air_storage.propagate = False
 
 
 class AircraftStorageJSON(BaseAircraftStorage):
+    """Реализация хранилища для JSON-файлов с использованием композиции."""
+
     def __init__(self, file_path: str):
         self.file_path = file_path
         self.data = []
+        self.file_manager = FileManager(file_path, logger=log_air_storage)
+        self.serializer = JSONSerializer()
+        self.validator = AircraftValidator()
+        self.load()
 
-    def load(self):
-        try:
-            with open(self.file_path, "r", encoding="UTF-8") as file:
-                data = json.load(file)
-                if isinstance(data, list):
-                    self.data = data
-                    return self.data
-                else:
-                    self.data = [data] if data else []
-                    return self.data
-        except FileNotFoundError:
-            return "Файл не найден"
-        except Exception as e:
-            return f"Ошибка при чтении файла: {e}"
 
-    def save(self, data):
-        try:
-            with open(self.file_path, 'w', encoding='UTF-8') as f:
-                json.dump(data, f, indent=4, ensure_ascii=False)
-                return "Данные успешно сохранены"
-        except Exception as e:
-            return f"При сохранении возникла неизвестная ошибка: {e}"
+    def load(self) -> List[Dict[str, Any]]:
+        """Загружает данные из файла."""
+        self.data = self.file_manager.read()
+        log_air_storage.info(f"Загружено {len(self.data)} записей")
+        return self.data
+
+    def save(self) -> bool:
+        """Сохраняет текущие данные в файл."""
+        success = self.file_manager.write(self.data)
+        if success:
+            log_air_storage.info(f"Сохранено {len(self.data)} записей")
+        return success
+
 
     def connect(self):
+        """Заглушка для подключения к БД."""
+        log_air_storage.debug("Метод connect() вызван (заглушка)")
         pass
 
     def disconnect(self):
+        """Заглушка для отключения от БД."""
+        log_air_storage.debug("Метод disconnect() вызван (заглушка)")
         pass
 
-    def add_aircraft(self, aircraft: dict):
+    def add_aircraft(self, aircraft: Dict[str, Any]) -> str:
+        """Добавляет новый самолёт."""
         try:
-            try:
-                with open(self.file_path, 'r', encoding='UTF-8') as f:
-                    existing_data = json.load(f)
-                    if not isinstance(existing_data, list):
-                        existing_data = [existing_data] if existing_data else []
-            except (FileNotFoundError, json.JSONDecodeError):
-                existing_data = []
+            if not self.validator.validate_aircraft(aircraft):
+                return "Ошибка: отсутствуют обязательные поля (id_board, model)"
 
-            for existing in existing_data:
-                if existing.get('id_board') == aircraft.get('id_board'):
-                    return f"Самолёт с бортовым номером {aircraft.get('id_board')} уже существует"
+            if self.validator.is_duplicate(self.data, aircraft):
+                return f"Самолёт с бортовым номером {aircraft.get('id_board')} уже существует"
 
-            existing_data.append(aircraft)
-
-            with open(self.file_path, 'w', encoding='UTF-8') as f:
-                json.dump(existing_data, f, indent=4, ensure_ascii=False)
-
-            self.data = existing_data
-            return f"Самолёт успешно добавлен. Всего: {len(existing_data)}"
+            self.data.append(aircraft)
+            if self.save():
+                log_air_storage.info(f"Добавлен самолёт {aircraft.get('id_board')}")
+                return f"Самолёт успешно добавлен. Всего: {len(self.data)}"
+            else:
+                return "Ошибка при сохранении данных"
 
         except Exception as e:
-            return f"Ошибка при добавлении самолёта: {e}"
+            error_msg = f"Ошибка при добавлении самолёта: {e}"
+            log_air_storage.error(error_msg)
+            return error_msg
 
-    def remove_aircraft(self, aircraft_id: str):
+    def remove_aircraft(self, aircraft_id: str) -> str:
+        """Удаляет самолёт по бортовому номеру."""
         try:
-            try:
-                with open(self.file_path, 'r', encoding='UTF-8') as f:
-                    existing_data = json.load(f)
-                    if not isinstance(existing_data, list):
-                        existing_data = [existing_data] if existing_data else []
-            except (FileNotFoundError, json.JSONDecodeError):
-                existing_data = []
+            initial_count = len(self.data)
+            self.data = [aircraft for aircraft in self.data
+                         if aircraft.get('id_board') != aircraft_id]
 
-            initial_count = len(existing_data)
-            existing_data = [aircraft for aircraft in existing_data
-                             if aircraft.get('id_board') != aircraft_id]
-
-            if len(existing_data) == initial_count:
+            if len(self.data) == initial_count:
                 return f"Самолёт с бортовым номером {aircraft_id} не найден"
 
-            with open(self.file_path, 'w', encoding='UTF-8') as f:
-                json.dump(existing_data, f, indent=4, ensure_ascii=False)
-
-            self.data = existing_data
-            return f"Самолёт успешно удален. Всего: {len(existing_data)}"
+            if self.save():
+                log_air_storage.info(f"Удалён самолёт {aircraft_id}")
+                return f"Самолёт успешно удален. Всего: {len(self.data)}"
+            else:
+                return "Ошибка при сохранении данных"
 
         except Exception as e:
-            return f"Ошибка при удалении самолёта: {e}"
+            error_msg = f"Ошибка при удалении самолёта: {e}"
+            log_air_storage.error(error_msg)
+            return error_msg
 
-    def search_aircrafts(self, search_params: dict):
+    def search_aircrafts(self, search_params: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Поиск самолётов по критериям."""
         try:
-            with open(self.file_path, 'r', encoding='UTF-8') as f:
-                existing_data = json.load(f)
-                if not isinstance(existing_data, list):
-                    existing_data = [existing_data] if existing_data else []
+            clean_params = {}
+            for key, value in search_params.items():
+                if isinstance(value, str):
+                    clean_params[key] = ' '.join(value.split())  # Удаляем лишние пробелы
+                else:
+                    clean_params[key] = value
 
-            filtered_data = []
-            for aircraft in existing_data:
-                matches = True
-                for key, value in search_params.items():
-                    if key not in aircraft or aircraft[key] != value:
-                        matches = False
-                        break
-                if matches:
-                    filtered_data.append(aircraft)
+            filtered = self.validator.filter_by_criteria(self.data, clean_params)
+            log_air_storage.info(f"Найдено {len(filtered)} самолётов по критериям {clean_params}")
+            return filtered
 
-            return filtered_data if filtered_data else []
-
-        except FileNotFoundError:
-            return []
         except Exception as e:
-            return []
+            log_air_storage.error(f"Ошибка при поиске: {e}")
+        return []
+
+
+    def get_all(self) -> List[Dict[str, Any]]:
+        """Возвращает все самолёты."""
+        return self.data

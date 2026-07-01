@@ -13,7 +13,7 @@ class BaseAircraftStorage(ABC):
         pass
 
     @abstractmethod
-    def save(self, data):
+    def save(self):
         pass
 
     @abstractmethod
