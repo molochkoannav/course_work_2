@@ -111,7 +111,7 @@ class AircraftStorageJSON(BaseAircraftStorage):
             clean_params = {}
             for key, value in search_params.items():
                 if isinstance(value, str):
-                    clean_params[key] = ' '.join(value.split())  # Удаляем лишние пробелы
+                    clean_params[key] = ' '.join(value.split())
                 else:
                     clean_params[key] = value
 

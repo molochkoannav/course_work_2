@@ -78,6 +78,11 @@ class Aircraft():
             if height < 0:
                 raise ValueError("Высота не может быть отрицательной")
 
+    @classmethod
+    def get_sort(cls, data):
+        """Сортирует список самолетов по скорости."""
+        valid_data = [x for x in data if x.height is not None]
+        return sorted(valid_data, key=lambda x: x.height, reverse=True)
 
     @classmethod
     def state_converting(cls,state):
@@ -94,17 +99,7 @@ class Aircraft():
             log_air_info.error(f"Ошибка при конвертации данных: {e}")
             return None
 
-    def __lt__(self, other):
-        """Сравнение по скорости"""
-        if not isinstance(other, Aircraft):
-            return NotImplemented
-        return self.velocity < other.velocity
 
-    def __gt__(self, other):
-        """Сравнение по высоте"""
-        if not isinstance(other, Aircraft):
-            return NotImplemented
-        return self.height > other.height
 
     def __eq__(self, other):
         if not isinstance(other, Aircraft):
@@ -113,6 +108,4 @@ class Aircraft():
 
     def __str__(self):
         return f"Борт {self.id_board} c позывным {self.callsign}, принадлежащий {self.country}, движется с {self.velocity} м/с, на высоте {self.height} м"
-
-
 
