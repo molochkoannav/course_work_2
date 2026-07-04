@@ -10,7 +10,6 @@ current_file = Path(__file__)
 project_root = current_file.parent.parent
 log_dir = project_root / "logs"
 log_dir.mkdir(exist_ok=True)
-
 log_storage = log_dir / "storage.log"
 
 logging.getLogger("urllib3").setLevel(logging.WARNING)
@@ -33,7 +32,7 @@ class AircraftStorageJSON(BaseAircraftStorage):
     def __init__(self, file_path: str):
         self.file_path = file_path
         self.data = []
-        self.file_manager = FileManager(file_path, logger=log_air_storage)
+        self.file_manager = FileManager(file_path)
         self.serializer = JSONSerializer()
         self.validator = AircraftValidator()
         self.load()

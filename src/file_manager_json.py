@@ -32,7 +32,7 @@ log_file_manager.propagate = False
 class FileManager:
     """Отвечает за чтение и запись данных в файл."""
 
-    def __init__(self, file_path: str, logger: logging.Logger = None):
+    def __init__(self, file_path: str):
         self.file_path = Path(file_path)
 
 

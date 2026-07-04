@@ -2,7 +2,31 @@ from src.aircraft import Aircraft
 from src.aircraft_sourse import AircraftSourse
 from src.aircraft_storage import AircraftStorageJSON
 from src.geocoder import Geocoder
+from pathlib import Path
+import logging
 
+current_file = Path(__file__)
+project_root = current_file.parent.parent
+log_dir = project_root / "logs"
+log_dir.mkdir(exist_ok=True)
+
+log_user = log_dir / "user.log"
+
+logging.getLogger("urllib3").setLevel(logging.WARNING)
+log_user_interface = logging.getLogger("user")
+log_user_interface.setLevel(logging.DEBUG)
+
+
+file_handler_user_interface = logging.FileHandler(log_user, mode="w", encoding="utf-8")
+file_handler_user_interface.setLevel(logging.DEBUG)
+
+
+formatter = logging.Formatter("%(asctime)s - %(filename)s - %(levelname)s: %(message)s")
+file_handler_user_interface.setFormatter(formatter)
+
+
+log_user_interface.addHandler(file_handler_user_interface)
+log_user_interface.propagate = False
 
 def user_main() -> None:
     """Функция для взаимодействия с пользователем."""
@@ -10,10 +34,12 @@ def user_main() -> None:
 
     while True:
         try:
+            log_user_interface.info("Запуск программы")
             print("\nВведите название страны для запроса информации о самолетах из opensky-network.org")
             country = input("Пример ввода - Ireland: ").strip().lower()
 
             if not country:
+                log_user_interface.error("Не правильно введено название страны")
                 print("Ошибка: Название страны не может быть пустым. Попробуйте снова.")
                 continue
 
@@ -21,17 +47,20 @@ def user_main() -> None:
             bounding_box = geocoder.get_bounding_box()
 
             if not bounding_box:
+                log_user_interface.error("Не удалось найти координаты для страны")
                 print(f"Ошибка: Не удалось найти координаты для страны '{country}'. Попробуйте снова.")
                 continue
             aircraft_source = AircraftSourse(bounding_box)
             states = aircraft_source.get_aeroplanes()
 
             if states is None:
+                log_user_interface.error("Не удалось получить данные от сервера")
                 print("Ошибка: Не удалось получить данные от сервера. Проверьте подключение к интернету.")
                 print("Попробуйте снова или введите другую страну.")
                 continue
 
             if not states:
+                log_user_interface.error("Ни одного самолета не найдено")
                 print(f"Над страной '{geocoder.name_country}' не найдено ни одного самолета.")
                 print("Попробуйте ввести другую страну.")
                 continue
@@ -43,10 +72,12 @@ def user_main() -> None:
                     if aircraft:
                         aircraft_list.append(aircraft)
                 except Exception as e:
+                    log_user_interface.error("Не удалось обработать данные самолета")
                     print(f"Предупреждение: Не удалось обработать данные самолета: {e}")
                     continue
 
             if not aircraft_list:
+                log_user_interface.error("Не удалось обработать данные ни одного самолета")
                 print("Не удалось обработать данные ни одного самолета. Попробуйте снова.")
                 continue
 
@@ -69,6 +100,7 @@ def user_main() -> None:
                     storage.save()
                     print(f"Данные сохранены в файл data/{geocoder.name_country}_aircraft.json")
                 except Exception as e:
+                    log_user_interface.error(f"Ошибка при сохранении данных: {e}")
                     print(f"Ошибка сохранения данных: {e}")
 
             while True:
@@ -96,6 +128,7 @@ def user_main() -> None:
 
 
                     except ValueError:
+                        log_user_interface.error("Ошибка ввода ValueError")
                         print("Пожалуйста, введите целое число")
                         continue
                     break
@@ -169,9 +202,11 @@ def user_main() -> None:
                 break
 
         except KeyboardInterrupt:
+            lo
             print("\nПрограмма прервана пользователем. До свидания!")
             return
         except Exception as e:
+            log_user_interface.error(f"Непредвиденная ошибка {e} ")
             print(f"Произошла непредвиденная ошибка: {e}")
             print("Попробуйте начать заново.")
 

@@ -1,5 +1,10 @@
+import os
+import tempfile
+
 import pytest
 from src.aircraft import Aircraft
+from src.aircraft_storage import AircraftStorageJSON
+
 
 @pytest.fixture
 def aircraft1():
@@ -31,3 +36,16 @@ def aircraft3():
         velocity=341.81,
         height=12184.38
     )
+
+@pytest.fixture
+def temp_file():
+    fd, path = tempfile.mkstemp(suffix='.json')
+    os.close(fd)
+    yield path
+    if os.path.exists(path):
+        os.unlink(path)
+
+
+@pytest.fixture
+def storage(temp_file):
+    return AircraftStorageJSON(temp_file)
