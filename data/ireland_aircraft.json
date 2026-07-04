@@ -1,0 +1,338 @@
+[
+    {
+        "id_board": "3c4b28",
+        "callsign": "DLH430",
+        "country": "Germany",
+        "velocity": 221.11,
+        "height": 10797.54
+    },
+    {
+        "id_board": "440060",
+        "callsign": "AUA41",
+        "country": "Austria",
+        "velocity": 209.56,
+        "height": 10782.3
+    },
+    {
+        "id_board": "44001e",
+        "callsign": "AUA55",
+        "country": "Austria",
+        "velocity": 207.38,
+        "height": 10134.6
+    },
+    {
+        "id_board": "896177",
+        "callsign": "UAE214",
+        "country": "United Arab Emirates",
+        "velocity": 277.21,
+        "height": 11148.06
+    },
+    {
+        "id_board": "440184",
+        "callsign": "AUA3VG",
+        "country": "Austria",
+        "velocity": 220.8,
+        "height": 10782.3
+    },
+    {
+        "id_board": "c058dd",
+        "callsign": "ACA901",
+        "country": "Canada",
+        "velocity": 210.26,
+        "height": 11993.88
+    },
+    {
+        "id_board": "4079eb",
+        "callsign": "GOMTX",
+        "country": "United Kingdom",
+        "velocity": 216.66,
+        "height": 12687.3
+    },
+    {
+        "id_board": "a13af4",
+        "callsign": "DAL79",
+        "country": "United States",
+        "velocity": 210.29,
+        "height": 10736.58
+    },
+    {
+        "id_board": "a4eacb",
+        "callsign": "DAL225",
+        "country": "United States",
+        "velocity": 213.51,
+        "height": 11445.24
+    },
+    {
+        "id_board": "40688d",
+        "callsign": "BAW5L",
+        "country": "United Kingdom",
+        "velocity": 218.95,
+        "height": 11323.32
+    },
+    {
+        "id_board": "ac0196",
+        "callsign": "AAL208",
+        "country": "United States",
+        "velocity": 104.89,
+        "height": 1958.34
+    },
+    {
+        "id_board": "4077d3",
+        "callsign": "VIR103M",
+        "country": "United Kingdom",
+        "velocity": 214.07,
+        "height": 11414.76
+    },
+    {
+        "id_board": "e80422",
+        "callsign": "LTG8506",
+        "country": "Chile",
+        "velocity": 264.02,
+        "height": 10523.22
+    },
+    {
+        "id_board": "a8cc46",
+        "callsign": "UAL959",
+        "country": "United States",
+        "velocity": 207.57,
+        "height": 10408.92
+    },
+    {
+        "id_board": "a1f1a0",
+        "callsign": "UAL22",
+        "country": "United States",
+        "velocity": 215.51,
+        "height": 11376.66
+    },
+    {
+        "id_board": "4ca2cb",
+        "callsign": "EIN540",
+        "country": "Ireland",
+        "velocity": 76.94,
+        "height": 182.88
+    },
+    {
+        "id_board": "405b64",
+        "callsign": "EZY48CH",
+        "country": "United Kingdom",
+        "velocity": 136.03,
+        "height": 1882.14
+    },
+    {
+        "id_board": "a2659a",
+        "callsign": "UAL43",
+        "country": "United States",
+        "velocity": 223.85,
+        "height": 9509.76
+    },
+    {
+        "id_board": "406b91",
+        "callsign": "EZY87XH",
+        "country": "United Kingdom",
+        "velocity": 217.93,
+        "height": 11323.32
+    },
+    {
+        "id_board": "407e21",
+        "callsign": "VIR9J",
+        "country": "United Kingdom",
+        "velocity": 216.37,
+        "height": 10812.78
+    },
+    {
+        "id_board": "a77c11",
+        "callsign": "UAL317",
+        "country": "United States",
+        "velocity": 271.7,
+        "height": 10530.84
+    },
+    {
+        "id_board": "406a9c",
+        "callsign": "BAW186",
+        "country": "United Kingdom",
+        "velocity": 273.69,
+        "height": 12969.24
+    },
+    {
+        "id_board": "400846",
+        "callsign": "LOG9AW",
+        "country": "United Kingdom",
+        "velocity": 118.43,
+        "height": 2529.84
+    },
+    {
+        "id_board": "4ca9b1",
+        "callsign": "EIGIU",
+        "country": "Ireland",
+        "velocity": 26.69,
+        "height": 198.12
+    },
+    {
+        "id_board": "4ca856",
+        "callsign": "RYR7901",
+        "country": "Ireland",
+        "velocity": 7.46,
+        "height": 0
+    },
+    {
+        "id_board": "4ca765",
+        "callsign": "RYR76JC",
+        "country": "Ireland",
+        "velocity": 7.46,
+        "height": 0
+    },
+    {
+        "id_board": "4ca5c6",
+        "callsign": "EIN952",
+        "country": "Ireland",
+        "velocity": 59.9,
+        "height": 160.02
+    },
+    {
+        "id_board": "a895eb",
+        "callsign": "UAL17",
+        "country": "United States",
+        "velocity": 205.57,
+        "height": 11026.14
+    },
+    {
+        "id_board": "400e14",
+        "callsign": "EZY64NG",
+        "country": "United Kingdom",
+        "velocity": 199.09,
+        "height": 8313.42
+    },
+    {
+        "id_board": "4cafb4",
+        "callsign": "RYR4CU",
+        "country": "Ireland",
+        "velocity": 173.45,
+        "height": 3329.94
+    },
+    {
+        "id_board": "c004f3",
+        "callsign": "WJA35",
+        "country": "Canada",
+        "velocity": 0.0,
+        "height": 0
+    },
+    {
+        "id_board": "407799",
+        "callsign": "BAW91C",
+        "country": "United Kingdom",
+        "velocity": 213.21,
+        "height": 11430.0
+    },
+    {
+        "id_board": "4caec3",
+        "callsign": "AFZ55X",
+        "country": "Ireland",
+        "velocity": 51.54,
+        "height": 1623.06
+    },
+    {
+        "id_board": "4caed8",
+        "callsign": "EIN91W",
+        "country": "Ireland",
+        "velocity": 80.71,
+        "height": 990.6
+    },
+    {
+        "id_board": "aa1dcd",
+        "callsign": "AAL43",
+        "country": "United States",
+        "velocity": 223.02,
+        "height": 11513.82
+    },
+    {
+        "id_board": "4cade5",
+        "callsign": "RYR78EA",
+        "country": "Ireland",
+        "velocity": 146.6,
+        "height": 1676.4
+    },
+    {
+        "id_board": "4cadf8",
+        "callsign": "RYR9636",
+        "country": "Ireland",
+        "velocity": 78.42,
+        "height": 601.98
+    },
+    {
+        "id_board": "4cae49",
+        "callsign": "RYR21WJ",
+        "country": "Ireland",
+        "velocity": 107.92,
+        "height": 1318.26
+    },
+    {
+        "id_board": "4cae29",
+        "callsign": "EIN205",
+        "country": "Ireland",
+        "velocity": 82.16,
+        "height": 1226.82
+    },
+    {
+        "id_board": "398699",
+        "callsign": "DJT100",
+        "country": "France",
+        "velocity": 202.99,
+        "height": 11445.24
+    },
+    {
+        "id_board": "45884c",
+        "callsign": "BBB21",
+        "country": "Denmark",
+        "velocity": 7.2,
+        "height": 0
+    },
+    {
+        "id_board": "a4ccba",
+        "callsign": "JBU32",
+        "country": "United States",
+        "velocity": 193.49,
+        "height": 10744.2
+    },
+    {
+        "id_board": "4cad7c",
+        "callsign": "EIN5WG",
+        "country": "Ireland",
+        "velocity": 72.29,
+        "height": 609.6
+    },
+    {
+        "id_board": "a219ea",
+        "callsign": "UAL951",
+        "country": "United States",
+        "velocity": 216.6,
+        "height": 10165.08
+    },
+    {
+        "id_board": "3c66b1",
+        "callsign": "OCN8G",
+        "country": "Germany",
+        "velocity": 256.39,
+        "height": 9227.82
+    },
+    {
+        "id_board": "493033",
+        "callsign": "NJE158H",
+        "country": "Portugal",
+        "velocity": 5.14,
+        "height": 0
+    },
+    {
+        "id_board": "abd3cf",
+        "callsign": "DAL259",
+        "country": "United States",
+        "velocity": 216.21,
+        "height": 10896.6
+    },
+    {
+        "id_board": "4caa54",
+        "callsign": "EAI4WD",
+        "country": "Ireland",
+        "velocity": 103.07,
+        "height": 2385.06
+    }
+]

@@ -1,10 +1,13 @@
+import logging
+from pathlib import Path
+from typing import Any
+from typing import Dict
+from typing import List
+
 from src.base_aircraft_storage import BaseAircraftStorage
 from src.file_manager_json import FileManager
 from src.serializer import JSONSerializer
 from src.validator import AircraftValidator
-import logging
-from pathlib import Path
-from typing import Dict, Any, List
 
 current_file = Path(__file__)
 project_root = current_file.parent.parent
@@ -37,7 +40,6 @@ class AircraftStorageJSON(BaseAircraftStorage):
         self.validator = AircraftValidator()
         self.load()
 
-
     def load(self) -> List[Dict[str, Any]]:
         """Загружает данные из файла."""
         self.data = self.file_manager.read()
@@ -50,7 +52,6 @@ class AircraftStorageJSON(BaseAircraftStorage):
         if success:
             log_air_storage.info(f"Сохранено {len(self.data)} записей")
         return success
-
 
     def connect(self):
         """Заглушка для подключения к БД."""
@@ -87,8 +88,7 @@ class AircraftStorageJSON(BaseAircraftStorage):
         """Удаляет самолёт по бортовому номеру."""
         try:
             initial_count = len(self.data)
-            self.data = [aircraft for aircraft in self.data
-                         if aircraft.get('id_board') != aircraft_id]
+            self.data = [aircraft for aircraft in self.data if aircraft.get("id_board") != aircraft_id]
 
             if len(self.data) == initial_count:
                 return f"Самолёт с бортовым номером {aircraft_id} не найден"
@@ -110,7 +110,7 @@ class AircraftStorageJSON(BaseAircraftStorage):
             clean_params = {}
             for key, value in search_params.items():
                 if isinstance(value, str):
-                    clean_params[key] = ' '.join(value.split())
+                    clean_params[key] = " ".join(value.split())
                 else:
                     clean_params[key] = value
 
@@ -121,7 +121,6 @@ class AircraftStorageJSON(BaseAircraftStorage):
         except Exception as e:
             log_air_storage.error(f"Ошибка при поиске: {e}")
         return []
-
 
     def get_all(self) -> List[Dict[str, Any]]:
         """Возвращает все самолёты."""

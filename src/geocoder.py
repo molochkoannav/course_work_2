@@ -1,8 +1,11 @@
-from src.base_igeocoder import BaseIGeocoder
-from requests import get, RequestException
 import json
-from pathlib import Path
 import logging
+from pathlib import Path
+
+from requests import RequestException
+from requests import get
+
+from src.base_igeocoder import BaseIGeocoder
 
 current_file = Path(__file__)
 project_root = current_file.parent.parent
@@ -27,25 +30,27 @@ file_handler_geocode.setFormatter(formatter)
 logger_geocode.addHandler(file_handler_geocode)
 logger_geocode.propagate = False
 
+
 class Geocoder(BaseIGeocoder):
-    """Класс для отработки геокодирования по стране """
+    """Класс для отработки геокодирования по стране"""
+
     name_country: str
 
     def __init__(self, name_country):
         logger_geocode.info(f"Создан объект класса Geocoder с именем {name_country}")
         self.name_country = name_country
-        self.openstreetmap_url = 'https://nominatim.openstreetmap.org/search'
+        self.openstreetmap_url = "https://nominatim.openstreetmap.org/search"
 
     def get_bounding_box(self):
         """Метод для получения координат"""
         headers_nominatim = {
-            'User-Agent': 'test-app/1.0',
+            "User-Agent": "test-app/1.0",
         }
 
         params_nominatim = {
-            'country': self.name_country,
-            'format': 'json',
-            'limit': 1,
+            "country": self.name_country,
+            "format": "json",
+            "limit": 1,
         }
         try:
             logger_geocode.info("Отправлен запрос на сервер")
@@ -55,16 +60,16 @@ class Geocoder(BaseIGeocoder):
 
             if data:  # Проверяем, что данные получены
                 # Получаем bounding box
-                geo_coordinates = data[0].get('boundingbox')
+                geo_coordinates = data[0].get("boundingbox")
 
                 # Возвращаем координаты в виде словаря
                 return {
-                    'south': float(geo_coordinates[0]),  # южная широта
-                    'north': float(geo_coordinates[1]),  # северная широта
-                    'west': float(geo_coordinates[2]),  # западная долгота
-                    'east': float(geo_coordinates[3]),  # восточная долгота
-                    'lat': float(data[0].get('lat')),
-                    'lon': float(data[0].get('lon')),
+                    "south": float(geo_coordinates[0]),  # южная широта
+                    "north": float(geo_coordinates[1]),  # северная широта
+                    "west": float(geo_coordinates[2]),  # западная долгота
+                    "east": float(geo_coordinates[3]),  # восточная долгота
+                    "lat": float(data[0].get("lat")),
+                    "lon": float(data[0].get("lon")),
                 }
             else:
                 logger_geocode.error(f"Не удалось получить bounding box для страны {self.name_country}")
@@ -85,4 +90,3 @@ class Geocoder(BaseIGeocoder):
         except Exception as e:
             logger_geocode.error(f"Непредвиденная ошибка: {e}", exc_info=True)
             return None
-

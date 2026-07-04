@@ -1,9 +1,9 @@
-
 import json
-from pathlib import Path
-from typing import Any, List, Dict
 import logging
-
+from pathlib import Path
+from typing import Any
+from typing import Dict
+from typing import List
 
 current_file = Path(__file__)
 project_root = current_file.parent.parent
@@ -35,12 +35,11 @@ class FileManager:
     def __init__(self, file_path: str):
         self.file_path = Path(file_path)
 
-
     def read(self) -> List[Dict[str, Any]]:
         """Читает данные из файла. Возвращает список словарей."""
         try:
             log_file_manager.info("Чтение файла")
-            with open(self.file_path, 'r', encoding='UTF-8') as f:
+            with open(self.file_path, "r", encoding="UTF-8") as f:
                 data = json.load(f)
                 if isinstance(data, list):
                     log_file_manager.info("Данные загружены")
@@ -63,7 +62,7 @@ class FileManager:
         """Записывает данные в файл. Возвращает True при успехе."""
         try:
             log_file_manager.info("Пробуем записать файл")
-            with open(self.file_path, 'w', encoding='UTF-8') as f:
+            with open(self.file_path, "w", encoding="UTF-8") as f:
                 json.dump(data, f, indent=4, ensure_ascii=False)
                 log_file_manager.info("данные загружены")
             return True

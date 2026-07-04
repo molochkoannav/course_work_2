@@ -2,16 +2,22 @@ import pytest
 
 from src.aircraft import Aircraft
 
+
 def test_max_velocity(aircraft1, aircraft2, aircraft3):
     max_velocity = max([aircraft1, aircraft2, aircraft3], key=lambda x: x.velocity)
     assert max_velocity == aircraft3
+
 
 def test_min_height(aircraft1, aircraft2, aircraft3):
     min_height = min([aircraft1, aircraft2, aircraft3], key=lambda x: x.height)
     assert min_height == aircraft2
 
+
 def test_str(aircraft1):
-    assert str(aircraft1) == "Борт 39de4f c позывным TVF19TV, принадлежащий France, движется с 224.22 м/с, на высоте 10942.32 м"
+    assert (
+        str(aircraft1)
+        == "Борт 39de4f c позывным TVF19TV, принадлежащий France, движется с 224.22 м/с, на высоте 10942.32 м"
+    )
 
 
 def test_id_board_valid():
@@ -46,6 +52,7 @@ def test_country_valid():
     with pytest.raises(ValueError, match="Страна должна быть непустой строкой"):
         Aircraft.country_valid(None)
 
+
 def test_velocity_valid():
     """Тест валидации скорости"""
     Aircraft.velocity_valid(900.5)
@@ -58,6 +65,7 @@ def test_velocity_valid():
         Aircraft.velocity_valid(None)
     with pytest.raises(ValueError, match="Скорость должна быть числом"):
         Aircraft.velocity_valid([900])
+
 
 def test_height_valid():
     """Тест валидации высоты"""
@@ -96,7 +104,7 @@ def test_state_converting_success():
         None,  # geo_altitude
         None,  # squawk
         None,  # spi
-        None  # position_source
+        None,  # position_source
     ]
 
     aircraft = Aircraft.state_converting(state_data)

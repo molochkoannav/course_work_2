@@ -1,8 +1,10 @@
+from abc import ABC
+from abc import abstractmethod
 
-from abc import ABC, abstractmethod
 
 class BaseAircraftStorage(ABC):
     """Абстрактный класс для хранения, получения, добавления, удаления данных о самолетах"""
+
     def __init__(self, file_path: str):
         self.file_path = file_path
         self._next_id = 1

@@ -1,15 +1,18 @@
-from src.base_iaircraft_sourse import BaseIAircraftSourse
-from requests import get, RequestException
 import json
-from pathlib import Path
 import logging
+from pathlib import Path
+
+from requests import RequestException
+from requests import get
+
+from src.base_iaircraft_sourse import BaseIAircraftSourse
 
 current_file = Path(__file__)
 project_root = current_file.parent.parent
 log_dir = project_root / "logs"
 log_dir.mkdir(exist_ok=True)
 
-log_aircraft= log_dir / "iaircraft.log"
+log_aircraft = log_dir / "iaircraft.log"
 
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 logger_aircraft = logging.getLogger("iaircraft")
@@ -27,11 +30,12 @@ file_handler_aircraft.setFormatter(formatter)
 logger_aircraft.addHandler(file_handler_aircraft)
 logger_aircraft.propagate = False
 
+
 class AircraftSourse(BaseIAircraftSourse):
     """Класс для отработки получения данных о самолетах"""
 
     def __init__(self, bounding_box=None):
-        self.opensky_url = 'https://opensky-network.org/api/states/all?'
+        self.opensky_url = "https://opensky-network.org/api/states/all?"
         self.bounding_box = bounding_box
         self.aeroplanes = None
         logger_aircraft.info(f"Создан объект AircraftSource с bounding_box: {bounding_box}")
@@ -43,10 +47,10 @@ class AircraftSourse(BaseIAircraftSourse):
             logger_aircraft.error("Не указаны координаты для поиска самолетов")
             return None
         params = {
-            'lamin': bbox['south'],
-            'lamax': bbox['north'],
-            'lomin': bbox['west'],
-            'lomax': bbox['east'],
+            "lamin": bbox["south"],
+            "lamax": bbox["north"],
+            "lomin": bbox["west"],
+            "lomax": bbox["east"],
         }
         try:
             logger_aircraft.info(f"Отправлен запрос к OpenSky с параметрами: {params}")
@@ -57,7 +61,7 @@ class AircraftSourse(BaseIAircraftSourse):
                 return None
 
             self.aeroplanes = response.json()
-            states = self.aeroplanes.get('states', [])
+            states = self.aeroplanes.get("states", [])
             logger_aircraft.info(f"Получено {len(states)} самолетов")
 
             return states

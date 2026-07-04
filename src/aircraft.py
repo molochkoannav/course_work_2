@@ -1,5 +1,5 @@
-from pathlib import Path
 import logging
+from pathlib import Path
 
 current_file = Path(__file__)
 project_root = current_file.parent.parent
@@ -24,7 +24,8 @@ file_handler_aircraft_info.setFormatter(formatter)
 log_air_info.addHandler(file_handler_aircraft_info)
 log_air_info.propagate = False
 
-class Aircraft():
+
+class Aircraft:
     """Класс для работы с данными о самолетах"""
 
     id_board: str
@@ -32,6 +33,7 @@ class Aircraft():
     country: str
     velocity: float
     height: float
+
     def __init__(self, id_board: str, callsign: str, country: str, velocity: float, height: float):
         self.id_board_valid(id_board)
         self.callsign_valid(callsign)
@@ -85,21 +87,20 @@ class Aircraft():
         return sorted(valid_data, key=lambda x: x.height, reverse=True)
 
     @classmethod
-    def state_converting(cls,state):
+    def state_converting(cls, state):
         """Создает объект Aircraft из сырых данных OpenSky"""
         try:
-            log_air_info.info(f"Создается объект Aircraft из данных: state")
-            return cls( id_board=state[0],
-                        callsign=state[1].strip() if state[1] else "UNKNOWN",
-                        country=state[2] or "UNKNOWN",
-                        velocity=float(state[9]) if state[9] is not None else 0.0,
-                        height=float(state[13]) if state[13] is not None else None
-                        )
+            log_air_info.info("Создается объект Aircraft из данных: state")
+            return cls(
+                id_board=state[0],
+                callsign=state[1].strip() if state[1] else "UNKNOWN",
+                country=state[2] or "UNKNOWN",
+                velocity=float(state[9]) if state[9] is not None else 0.0,
+                height=float(state[13]) if state[13] is not None else None,
+            )
         except (IndexError, ValueError, TypeError) as e:
             log_air_info.error(f"Ошибка при конвертации данных: {e}")
             return None
-
-
 
     def __eq__(self, other):
         if not isinstance(other, Aircraft):
@@ -107,5 +108,8 @@ class Aircraft():
         return self.id_board == other.id_board
 
     def __str__(self):
-        return f"Борт {self.id_board} c позывным {self.callsign}, принадлежащий {self.country}, движется с {self.velocity} м/с, на высоте {self.height} м"
-
+        return (
+            f"Борт {self.id_board} c позывным {self.callsign}, "
+            f"принадлежащий {self.country}, движется с {self.velocity} м/с, "
+            f"на высоте {self.height} м"
+        )
